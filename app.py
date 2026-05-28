@@ -27,7 +27,6 @@ footer {visibility: hidden;}
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # Your remaining code starts here
-st.title("ServeHRM Preliminary HR Health Score")
 
 import pandas as pd
 import os
