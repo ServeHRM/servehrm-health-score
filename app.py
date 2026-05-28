@@ -1,4 +1,34 @@
 import streamlit as st
+
+st.set_page_config(
+    page_title="ServeHRM HR Health Score",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
+
+hide_streamlit_style = """
+<style>
+#MainMenu {visibility: hidden;}
+header {visibility: hidden;}
+footer {visibility: hidden;}
+
+/* Hide top-right toolbar */
+[data-testid="stToolbar"] {
+    display: none;
+}
+
+/* Hide deploy button */
+[data-testid="stDecoration"] {
+    display: none;
+}
+</style>
+"""
+
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+
+# Your remaining code starts here
+st.title("ServeHRM Preliminary HR Health Score")
+
 import pandas as pd
 import os
 
@@ -25,13 +55,13 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 
 
-def send_email_with_pdf(to_email, company, pdf_path):
+def send_email_with_pdf(to_email, company, contact_person,pdf_path):
     sender_email = "a9cc57001@smtp-brevo.com"
     brevo_smtp_key = "xsmtpsib-f1313fa970cfd34d85ae67686a9e2dad42472c4a93f016be8fd7091bd65bdd71-7PdP1fV2OZsFvrm3"
 
     subject = "Your Preliminary HR Health Report - ServeHRM"    
     body = f"""
-Dear {company} Team,
+Dear {contact_person},
 
 Thank you for completing the Phase-1 Preliminary HR Health Checkup.
 
@@ -311,7 +341,7 @@ We would like to book a Phase-2 Comprehensive HR Health Checkup consultation.
         doc.build(content)
 
         try:
-            send_email_with_pdf(email, company, temp_pdf.name)
+            send_email_with_pdf(email, company, contact_person, temp_pdf.name)
             st.success("Preliminary HR Health Report has been emailed successfully.")
 
         except Exception as e:
